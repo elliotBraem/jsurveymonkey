@@ -13,6 +13,10 @@
 - [X] Add Recipient
 - [X] Send Message
 - [X] Delete a Survey
+- [ ] Create a Page
+- [ ] Get a Page
+- [ ] Modify a Page
+- [ ] Delete a Page
 - [ ] Add Question
 - [ ] Get Response
 - [ ] Get Response Detail

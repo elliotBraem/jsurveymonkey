@@ -77,7 +77,8 @@ public class SurveyMonkeyService extends Service {
 		try {
 			
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpGet httpGet = new HttpGet(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE + "/" + request.getIdSurvey()));
+			HttpGet httpGet = new HttpGet(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+					+ "/" + request.getIdSurvey()));
 			
 			setRequestAuthentication(httpGet, request.getAuthenticationToken());
 			
@@ -97,7 +98,9 @@ public class SurveyMonkeyService extends Service {
 		try {
 			
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE + "/" + request.getPathSurveyId() + "/" + COLLECTOR_SERVICE));
+			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+					+ "/" + request.getPathSurveyId()
+					+ "/" + COLLECTOR_SERVICE));
 			
 			setRequestAuthentication(httpPost, request.getAuthenticationToken());
 			setRequestBody(httpPost, request.getJsonBody());
@@ -119,7 +122,9 @@ public class SurveyMonkeyService extends Service {
 		try {
 			
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + COLLECTOR_SERVICE + "/" + request.getPathCollectorId() + "/" + MESSAGES_SERVICE));
+			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + COLLECTOR_SERVICE
+					+ "/" + request.getPathCollectorId()
+					+ "/" + MESSAGES_SERVICE));
 			
 			setRequestAuthentication(httpPost, request.getAuthenticationToken());
 			setRequestBody(httpPost, request.getJsonBody());
@@ -141,9 +146,10 @@ public class SurveyMonkeyService extends Service {
 		try {
 			
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + COLLECTOR_SERVICE + "/" 
-					+ request.getPathCollectorId() + "/" 
-					+ MESSAGES_SERVICE + "/" + request.getPathMessageId() 
+			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + COLLECTOR_SERVICE
+					+ "/" + request.getPathCollectorId()
+					+ "/" + MESSAGES_SERVICE
+					+ "/" + request.getPathMessageId()
 					+ "/" + RECIPIENT_SERVICE));
 			
 			setRequestAuthentication(httpPost, request.getAuthenticationToken());
@@ -167,9 +173,10 @@ public class SurveyMonkeyService extends Service {
 		try {
 			
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + COLLECTOR_SERVICE + "/" 
-					+ request.getPathCollectorId() + "/" 
-					+ MESSAGES_SERVICE + "/" + request.getPathMessageId() 
+			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + COLLECTOR_SERVICE
+					+ "/" + request.getPathCollectorId()
+					+ "/" + MESSAGES_SERVICE
+					+ "/" + request.getPathMessageId()
 					+ "/send"));
 			
 			setRequestAuthentication(httpPost, request.getAuthenticationToken());
@@ -193,7 +200,8 @@ public class SurveyMonkeyService extends Service {
 		try {
 			
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpPatch httpPatch = new HttpPatch(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE + "/" + request.getPathSurveyId()));
+			HttpPatch httpPatch = new HttpPatch(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+					+ "/" + request.getPathSurveyId()));
 			setRequestAuthentication(httpPatch, request.getAuthenticationToken());
 			setRequestBody(httpPatch, request.getJsonBody());
 			
@@ -215,7 +223,8 @@ public class SurveyMonkeyService extends Service {
 		try {
 			
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpGet httpGet = new HttpGet(new URI(SurveyConfig.ENDPOINT_V3 + COLLECTOR_SERVICE + "/" + request.getIdCollector()));
+			HttpGet httpGet = new HttpGet(new URI(SurveyConfig.ENDPOINT_V3 + COLLECTOR_SERVICE
+					+ "/" + request.getIdCollector()));
 			setRequestAuthentication(httpGet, request.getAuthenticationToken());
 			
 			CloseableHttpResponse response = httpClient.execute(httpGet);
@@ -234,7 +243,8 @@ public class SurveyMonkeyService extends Service {
 		try {
 			
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpDelete httpDelete = new HttpDelete(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE + "/" + request.getIdSurvey()));
+			HttpDelete httpDelete = new HttpDelete(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+					+ "/" + request.getIdSurvey()));
 			setRequestAuthentication(httpDelete, request.getAuthenticationToken());
 			
 			CloseableHttpResponse response = httpClient.execute(httpDelete);
@@ -243,6 +253,26 @@ public class SurveyMonkeyService extends Service {
 	        setResponse(result);
 	        
 	        return new GetSurveyResponseBuilder(result).getResponse();
+		} catch (Exception e) {
+			return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
+		}
+	}
+
+	public CreatePageResponse createPage(CreatePageRequest request) {
+		try {
+
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			HttpDelete httpDelete = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+					+ "/" + request.getIdSurvey())
+					+ "/" + pages);
+			setRequestAuthentication(httpDelete, request.getAuthenticationToken());
+
+			CloseableHttpResponse response = httpClient.execute(httpDelete);
+			String result = EntityUtils.toString(response.getEntity());
+
+			setResponse(result);
+
+			return new GetSurveyResponseBuilder(result).getResponse();
 		} catch (Exception e) {
 			return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
 		}
