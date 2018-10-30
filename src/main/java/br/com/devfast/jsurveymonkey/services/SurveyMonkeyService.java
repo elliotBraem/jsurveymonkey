@@ -343,5 +343,32 @@ public class SurveyMonkeyService extends Service {
 			return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
 		}
 	}
+
+    /**
+     * getPage: HTTP GET to https://api.surveymonkey.com/v3/surveys/{id}/pages
+     * Returns a page’s details.
+     * @param request: Request for page's details
+     * @return Response for page's details
+     */
+    public GetPageResponse GetPage(GetPageRequest request) {
+        try {
+
+            CloseableHttpClient httpClient = HttpClients.createDefault();
+            HttpGet httpGet = new HttpGet(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+                    + "/" + request.getIdSurvey())
+                    + "/" + PAGE_SERVICE);
+
+            setRequestAuthentication(httpGet, request.getAuthenticationToken());
+
+            CloseableHttpResponse response = httpClient.execute(httpGet);
+            String result = EntityUtils.toString(response.getEntity());
+
+            setResponse(result);
+
+            return new GetSurveyResponseBuilder(result).getResponse();
+        } catch (Exception e) {
+            return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
+        }
+    }
 	
 }
