@@ -10,7 +10,7 @@ public class CreatePageRequest extends Request {
 
     private String title;
     private String description;
-    private Integer position;
+    private int position;
 
     public String getTitle() {
         return title;
@@ -28,11 +28,11 @@ public class CreatePageRequest extends Request {
         this.description = description;
     }
 
-    public Integer getPosition() {
+    public int getPosition() {
         return position;
     }
 
-    public void setPosition(Integer position) {
+    public void setPosition(int position) {
         this.position = position;
     }
 }
