@@ -46,13 +46,24 @@ public class SurveyMonkeyService extends Service {
 	public static String COLLECTOR_SERVICE = "collectors";
 	public static String MESSAGES_SERVICE = "messages";
 	public static String RECIPIENT_SERVICE = "recipients";
-	
+	public static String PAGE_SERVICE = "pages";
+
+    /**
+     * SurveyMonkeyService: Initializes a Survey Monkey Service
+     * @param authenticationToken: bearer YOUR_ACCESS_TOKEN
+     */
 	public SurveyMonkeyService(String authenticationToken) {
 		setAuthenticationToken(authenticationToken);
 	}
 	
 	public SurveyMonkeyService() {}
-	
+
+    /**
+     * createSurvey: HTTP POST to https://api.surveymonkey.com/v3/surveys
+     * Creates a new empty survey
+     * @param request: Request for new survey
+     * @return Response for new survey
+     */
 	public CreateSurveyResponse createSurvey(CreateSurveyRequest request){
 		try {
 			
@@ -72,10 +83,16 @@ public class SurveyMonkeyService extends Service {
 			return new CreateSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
 		}
 	}
-	
+
+    /**
+     * getSurvey: HTTP GET to https://api.surveymonkey.com/v3/surveys/{id}
+     * Returns a survey's details
+     * @param request: Request for survey's details
+     * @return Response for survey's details
+     */
 	public GetSurveyResponse getSurvey(GetSurveyRequest request){
 		try {
-			
+
 			CloseableHttpClient httpClient = HttpClients.createDefault();
 			HttpGet httpGet = new HttpGet(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
 					+ "/" + request.getIdSurvey()));
@@ -92,7 +109,13 @@ public class SurveyMonkeyService extends Service {
 			return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
 		}
 	}
-	
+
+    /**
+     * createCollector: HTTP POST to https://api.surveymonkey.com/v3/surveys/{id}/collectors
+     * Creates a weblink or email collector for a given survey.
+     * @param request: Request for new collector
+     * @return Response for new collector
+     */
 	public CreateCollectorResponse createCollector(CreateCollectorRequest request){
 		
 		try {
@@ -116,7 +139,13 @@ public class SurveyMonkeyService extends Service {
 		}
 		
 	}
-	
+
+    /**
+     * createMessage: HTTP POST to https://api.surveymonkey.com/v3/collectors/{id}/messages
+     * Creates a message.
+     * @param request: Request for new message
+     * @return Response for new message
+     */
 	public MessageResponse createMessage(CreateMessageRequest request){
 		
 		try {
@@ -140,7 +169,13 @@ public class SurveyMonkeyService extends Service {
 		}
 		
 	}
-	
+
+    /**
+     * addRecipient: HTTP POST to https://api.surveymonkey.com/v3/collectors/{id}/messages/{id}/recipients
+     * Creates a new recipient for the specified message.
+     * @param request: Request for new recipient
+     * @return Response for new recipient
+     */
 	public AddRecipientResponse addRecipient(AddRecipientRequest request){
 		
 		try {
@@ -167,7 +202,13 @@ public class SurveyMonkeyService extends Service {
 		}
 		
 	}
-	
+
+    /**
+     * sendMessage: HTTP POST to https://api.surveymonkey.com/v3/collectors/{id}/messages/{id}/send
+     * Send or schedule to send an existing message to all message recipients.
+     * @param request: Request to send message
+     * @return Response to send message
+     */
 	public SendMessageResponse sendMessage(SendMessageRequest request){
 		
 		try {
@@ -195,6 +236,12 @@ public class SurveyMonkeyService extends Service {
 		
 	}
 
+    /**
+     * modifySurvey: HTTP PATCH to https://api.surveymonkey.com/v3/surveys/{id}
+     * Modifies a survey’s title, nickname or language.
+     * @param request: Request to modify survey
+     * @return Response to modify survey
+     */
 	public ModifySurveyResponse modifySurvey(ModifySurveyRequest request) {
 		
 		try {
@@ -218,6 +265,12 @@ public class SurveyMonkeyService extends Service {
 
 	}
 
+    /**
+     * getCollector: HTTP GET to https://api.surveymonkey.com/v3/collectors/{id}
+     * Returns a collector
+     * @param request: Request for collector
+     * @return Response for collector
+     */
 	public GetCollectorResponse getCollector(GetCollectorRequest request) {
 		
 		try {
@@ -239,6 +292,12 @@ public class SurveyMonkeyService extends Service {
 		
 	}
 
+    /**
+     * deleteSurvey: HTTP DELETE to https://api.surveymonkey.com/v3/surveys/{id}
+     * Deletes a survey.
+     * @param request: Request to delete survey
+     * @return Response to delete survey
+     */
 	public GetSurveyResponse deleteSurvey(DeleteSurveyRequest request) {
 		try {
 			
@@ -258,16 +317,23 @@ public class SurveyMonkeyService extends Service {
 		}
 	}
 
+    /**
+     * createPage: HTTP POST to https://api.surveymonkey.com/v3/surveys/{id}/pages
+     * Creates a new, empty page
+     * @param request: Request for new page
+     * @return Response for new page
+     */
 	public CreatePageResponse createPage(CreatePageRequest request) {
 		try {
 
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpDelete httpDelete = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+			HttpDelete httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
 					+ "/" + request.getIdSurvey())
-					+ "/" + pages);
-			setRequestAuthentication(httpDelete, request.getAuthenticationToken());
+					+ "/" + PAGE_SERVICE);
+			setRequestAuthentication(httpPost, request.getAuthenticationToken());
+            setRequestBody(httpPost, request.getJsonBody());
 
-			CloseableHttpResponse response = httpClient.execute(httpDelete);
+			CloseableHttpResponse response = httpClient.execute(httpPost);
 			String result = EntityUtils.toString(response.getEntity());
 
 			setResponse(result);
@@ -277,6 +343,5 @@ public class SurveyMonkeyService extends Service {
 			return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
 		}
 	}
-
 	
 }

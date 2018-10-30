@@ -6,6 +6,7 @@
 # Available Services
 - [X] Create a Survey
 - [x] Get a Survey
+- [ ] Get expanded details for a Survey
 - [x] Modify a Survey 
 - [x] Create Collector
 - [x] Get Collector
