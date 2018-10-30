@@ -57,5 +57,5 @@ public class CreateSurveyRequest extends Request {
 	public void setCustom_variables(Map<String, String> custom_variables) {
 		this.custom_variables = custom_variables;
 	}
-	
+
 }
