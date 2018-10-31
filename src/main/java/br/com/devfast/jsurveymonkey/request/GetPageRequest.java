@@ -8,8 +8,15 @@ public class GetPageRequest extends Request {
 
     private int page;
     private int per_page;
+    private String idSurvey;
 
-    public GetSurveyRequest(int page) {
+    public GetSurveyRequest(String idSurvey) {
+        this.idSurvey = idSurvey;
+        setDate(new Date());
+    }
+
+    public GetSurveyRequest(String idSurvey, int page) {
+        this.idSurvey = idSurvey;
         this.page = page;
         setDate(new Date());
     }
@@ -28,5 +35,13 @@ public class GetPageRequest extends Request {
 
     public void setPer_page(int per_page) {
         this.per_page = per_page;
+    }
+
+    public String getIdSurvey() {
+        return idSurvey;
+    }
+
+    public void setIdSurvey(String idSurvey) {
+        this.idSurvey = idSurvey;
     }
 }

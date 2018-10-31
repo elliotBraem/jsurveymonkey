@@ -12,7 +12,7 @@ import br.com.devfast.jsurveymonkey.request.GetSurveyRequest;
 
 public class GsonFactory {
 
-	public static Gson  create(){
+	public static Gson create(){
 		GsonBuilder gb = new GsonBuilder();
 		gb.registerTypeAdapter(Date.class, new DateDeserializer());
 		gb.registerTypeAdapter(GetSurveyRequest.class, new CreateSurveyRequestDeserializer());

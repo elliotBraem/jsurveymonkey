@@ -4,13 +4,14 @@ import br.com.devfast.jsurveymonkey.commons.Request;
 
 public class CreatePageRequest extends Request {
 
-    public CreatePageRequest() {
-        setDate(new Date());
-    }
-
     private String title;
     private String description;
     private int position;
+    private String idSurvey;
+
+    public CreatePageRequest(String idSurvey) {
+        setDate(new Date());
+    }
 
     public String getTitle() {
         return title;
