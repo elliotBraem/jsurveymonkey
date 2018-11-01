@@ -47,6 +47,7 @@ public class SurveyMonkeyService extends Service {
 	public static String MESSAGES_SERVICE = "messages";
 	public static String RECIPIENT_SERVICE = "recipients";
 	public static String PAGE_SERVICE = "pages";
+	public static String QUESTION_SERVICE = "questions";
 
     /**
      * SurveyMonkeyService: Initializes a Survey Monkey Service
@@ -338,9 +339,9 @@ public class SurveyMonkeyService extends Service {
 
 			setResponse(result);
 
-			return new GetSurveyResponseBuilder(result).getResponse();
+			return new CreatePageResponseBuilder(result).getResponse();
 		} catch (Exception e) {
-			return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
+			return new CreatePageResponse(StatusSurveyResponse.ERROR, e.getMessage());
 		}
 	}
 
@@ -365,10 +366,38 @@ public class SurveyMonkeyService extends Service {
 
             setResponse(result);
 
-            return new GetSurveyResponseBuilder(result).getResponse();
+            return new GetPageResponseBuilder(result).getResponse();
         } catch (Exception e) {
-            return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
+            return new GetPageResponse(StatusSurveyResponse.ERROR, e.getMessage());
         }
     }
-	
+
+	/**
+	 * createQuestion: HTTP POST to https://api.surveymonkey.com/v3/surveys/{id}/pages/{id}/questions
+	 * Creates a new question on a survey page
+	 * @param request: Request for new question
+	 * @return Response for new question
+	 */
+	public CreateQuestionResponse createQuestion(CreateQuestionRequest request) {
+		try {
+
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			HttpDelete httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+					+ "/" + request.getIdSurvey())
+					+ "/" + PAGE_SERVICE
+					+ "/" + request.getIdPage()
+					+ "/" + QUESTION_SERVICE);
+			setRequestAuthentication(httpPost, request.getAuthenticationToken());
+			setRequestBody(httpPost, request.getJsonBody());
+
+			CloseableHttpResponse response = httpClient.execute(httpPost);
+			String result = EntityUtils.toString(response.getEntity());
+
+			setResponse(result);
+
+			return new CreateQuestionResponseBuilder(result).getResponse();
+		} catch (Exception e) {
+			return new CreateQuestionResponse(StatusSurveyResponse.ERROR, e.getMessage());
+		}
+	}
 }
