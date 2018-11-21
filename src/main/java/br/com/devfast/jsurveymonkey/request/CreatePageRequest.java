@@ -2,6 +2,8 @@ package br.com.devfast.jsurveymonkey.request;
 
 import br.com.devfast.jsurveymonkey.commons.Request;
 
+import java.util.Date;
+
 public class CreatePageRequest extends Request {
 
     private String title;
@@ -35,5 +37,13 @@ public class CreatePageRequest extends Request {
 
     public void setPosition(int position) {
         this.position = position;
+    }
+
+    public String getIdSurvey() {
+        return idSurvey;
+    }
+
+    public void setIdSurvey(String idSurvey) {
+        this.idSurvey = idSurvey;
     }
 }

@@ -1,8 +1,7 @@
 package br.com.devfast.jsurveymonkey.response;
 
-import java.util.Date;
-
 import br.com.devfast.jsurveymonkey.commons.Response;
+import br.com.devfast.jsurveymonkey.enums.StatusSurveyResponse;
 
 public class CreatePageResponse extends Response {
 

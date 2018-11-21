@@ -4,6 +4,9 @@ import br.com.devfast.jsurveymonkey.commons.Response;
 import br.com.devfast.jsurveymonkey.entities.Heading;
 import br.com.devfast.jsurveymonkey.entities.Sorting;
 import br.com.devfast.jsurveymonkey.entities.Required;
+import br.com.devfast.jsurveymonkey.enums.StatusSurveyResponse;
+
+import java.util.List;
 
 public class CreateQuestionResponse extends Response {
 

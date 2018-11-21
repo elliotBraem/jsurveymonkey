@@ -10,12 +10,12 @@ public class GetPageRequest extends Request {
     private int per_page;
     private String idSurvey;
 
-    public GetSurveyRequest(String idSurvey) {
+    public GetPageRequest(String idSurvey) {
         this.idSurvey = idSurvey;
         setDate(new Date());
     }
 
-    public GetSurveyRequest(String idSurvey, int page) {
+    public GetPageRequest(String idSurvey, int page) {
         this.idSurvey = idSurvey;
         this.page = page;
         setDate(new Date());

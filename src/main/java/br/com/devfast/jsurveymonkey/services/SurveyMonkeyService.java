@@ -12,33 +12,11 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 
 import br.com.devfast.jsurveymonkey.app.SurveyConfig;
-import br.com.devfast.jsurveymonkey.builder.AddRecipientResponseBuilder;
-import br.com.devfast.jsurveymonkey.builder.CreateCollectorResponseBuilder;
-import br.com.devfast.jsurveymonkey.builder.CreateSurveyResponseBuilder;
-import br.com.devfast.jsurveymonkey.builder.GetCollectorResponseBuilder;
-import br.com.devfast.jsurveymonkey.builder.GetSurveyResponseBuilder;
-import br.com.devfast.jsurveymonkey.builder.MessageResponseBuilder;
-import br.com.devfast.jsurveymonkey.builder.ModifySurveyResponseBuilder;
-import br.com.devfast.jsurveymonkey.builder.SendMessageResponseBuilder;
+import br.com.devfast.jsurveymonkey.builder.*;
 import br.com.devfast.jsurveymonkey.commons.Service;
 import br.com.devfast.jsurveymonkey.enums.StatusSurveyResponse;
-import br.com.devfast.jsurveymonkey.request.AddRecipientRequest;
-import br.com.devfast.jsurveymonkey.request.CreateCollectorRequest;
-import br.com.devfast.jsurveymonkey.request.CreateMessageRequest;
-import br.com.devfast.jsurveymonkey.request.CreateSurveyRequest;
-import br.com.devfast.jsurveymonkey.request.DeleteSurveyRequest;
-import br.com.devfast.jsurveymonkey.request.GetCollectorRequest;
-import br.com.devfast.jsurveymonkey.request.GetSurveyRequest;
-import br.com.devfast.jsurveymonkey.request.ModifySurveyRequest;
-import br.com.devfast.jsurveymonkey.request.SendMessageRequest;
-import br.com.devfast.jsurveymonkey.response.AddRecipientResponse;
-import br.com.devfast.jsurveymonkey.response.CreateCollectorResponse;
-import br.com.devfast.jsurveymonkey.response.CreateSurveyResponse;
-import br.com.devfast.jsurveymonkey.response.GetCollectorResponse;
-import br.com.devfast.jsurveymonkey.response.GetSurveyResponse;
-import br.com.devfast.jsurveymonkey.response.MessageResponse;
-import br.com.devfast.jsurveymonkey.response.ModifySurveyResponse;
-import br.com.devfast.jsurveymonkey.response.SendMessageResponse;
+import br.com.devfast.jsurveymonkey.request.*;
+import br.com.devfast.jsurveymonkey.response.*;
 
 public class SurveyMonkeyService extends Service {
 	
@@ -328,7 +306,7 @@ public class SurveyMonkeyService extends Service {
 		try {
 
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpDelete httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
 					+ "/" + request.getIdSurvey())
 					+ "/" + PAGE_SERVICE);
 			setRequestAuthentication(httpPost, request.getAuthenticationToken());
@@ -382,7 +360,7 @@ public class SurveyMonkeyService extends Service {
 		try {
 
 			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpDelete httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
 					+ "/" + request.getIdSurvey())
 					+ "/" + PAGE_SERVICE
 					+ "/" + request.getIdPage()
