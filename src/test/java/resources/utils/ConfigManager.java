@@ -1,5 +1,6 @@
 package utils;
 
+import java.io.InputStream;
 import java.util.Properties;
 
 public class ConfigManager {
@@ -12,10 +13,13 @@ public class ConfigManager {
     private ConfigManager() { }
 
     static {
+        String propFileName = "/config.properties";
         // Try to load application properties
         Properties properties = new Properties();
+
+        InputStream in = ConfigManager.class.getResourceAsStream(propFileName);
         try {
-            properties.load(ConfigManager.class.getResourceAsStream("/config.properties"));
+            properties.load(in);
         } catch (Exception e) {
             e.printStackTrace();
         }

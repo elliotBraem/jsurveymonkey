@@ -356,26 +356,26 @@ public class SurveyMonkeyService extends Service {
 	 * @param request: Request for new question
 	 * @return Response for new question
 	 */
-	public CreateQuestionResponse createQuestion(CreateQuestionRequest request) {
-		try {
-
-			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
-					+ "/" + request.getIdSurvey())
-					+ "/" + PAGE_SERVICE
-					+ "/" + request.getIdPage()
-					+ "/" + QUESTION_SERVICE);
-			setRequestAuthentication(httpPost, request.getAuthenticationToken());
-			setRequestBody(httpPost, request.getJsonBody());
-
-			CloseableHttpResponse response = httpClient.execute(httpPost);
-			String result = EntityUtils.toString(response.getEntity());
-
-			setResponse(result);
-
-			return new CreateQuestionResponseBuilder(result).getResponse();
-		} catch (Exception e) {
-			return new CreateQuestionResponse(StatusSurveyResponse.ERROR, e.getMessage());
-		}
-	}
+//	public CreateQuestionResponse createQuestion(CreateQuestionRequest request) {
+//		try {
+//
+//			CloseableHttpClient httpClient = HttpClients.createDefault();
+//			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+//					+ "/" + request.getIdSurvey())
+//					+ "/" + PAGE_SERVICE
+//					+ "/" + request.getIdPage()
+//					+ "/" + QUESTION_SERVICE);
+//			setRequestAuthentication(httpPost, request.getAuthenticationToken());
+//			setRequestBody(httpPost, request.getJsonBody());
+//
+//			CloseableHttpResponse response = httpClient.execute(httpPost);
+//			String result = EntityUtils.toString(response.getEntity());
+//
+//			setResponse(result);
+//
+//			return new CreateQuestionResponseBuilder(result).getResponse();
+//		} catch (Exception e) {
+//			return new CreateQuestionResponse(StatusSurveyResponse.ERROR, e.getMessage());
+//		}
+//	}
 }
