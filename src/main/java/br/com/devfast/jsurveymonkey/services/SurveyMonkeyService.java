@@ -89,6 +89,61 @@ public class SurveyMonkeyService extends Service {
 		}
 	}
 
+	/**
+	 * modifySurvey: HTTP PATCH to https://api.surveymonkey.com/v3/surveys/{id}
+	 * Modifies a survey’s title, nickname or language.
+	 * @param request: Request to modify survey
+	 * @param surveyID: Id of survey to modify
+	 * @return Response to modify survey
+	 */
+	public ModifySurveyResponse modifySurvey(ModifySurveyRequest request, String surveyID) {
+
+		try {
+
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			HttpPatch httpPatch = new HttpPatch(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+					+ "/" + surveyID));
+			setRequestAuthentication(httpPatch, request.getAuthenticationToken());
+			setRequestBody(httpPatch, request.getJsonBody());
+
+			CloseableHttpResponse response = httpClient.execute(httpPatch);
+			String result = EntityUtils.toString(response.getEntity());
+
+			setResponse(result);
+
+			return new ModifySurveyResponseBuilder(result).getResponse();
+
+		} catch (Exception e) {
+			return new ModifySurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
+		}
+
+	}
+
+	/**
+	 * deleteSurvey: HTTP DELETE to https://api.surveymonkey.com/v3/surveys/{id}
+	 * Deletes a survey.
+	 * @param request: Request to delete survey
+	 * @return Response to delete survey
+	 */
+	public GetSurveyResponse deleteSurvey(DeleteSurveyRequest request) {
+		try {
+
+			CloseableHttpClient httpClient = HttpClients.createDefault();
+			HttpDelete httpDelete = new HttpDelete(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
+					+ "/" + request.getIdSurvey()));
+			setRequestAuthentication(httpDelete, request.getAuthenticationToken());
+
+			CloseableHttpResponse response = httpClient.execute(httpDelete);
+			String result = EntityUtils.toString(response.getEntity());
+
+			setResponse(result);
+
+			return new GetSurveyResponseBuilder(result).getResponse();
+		} catch (Exception e) {
+			return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
+		}
+	}
+
     /**
      * createCollector: HTTP POST to https://api.surveymonkey.com/v3/surveys/{id}/collectors
      * Creates a weblink or email collector for a given survey.
@@ -216,35 +271,6 @@ public class SurveyMonkeyService extends Service {
 	}
 
     /**
-     * modifySurvey: HTTP PATCH to https://api.surveymonkey.com/v3/surveys/{id}
-     * Modifies a survey’s title, nickname or language.
-     * @param request: Request to modify survey
-     * @return Response to modify survey
-     */
-	public ModifySurveyResponse modifySurvey(ModifySurveyRequest request) {
-		
-		try {
-			
-			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpPatch httpPatch = new HttpPatch(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
-					+ "/" + request.getPathSurveyId()));
-			setRequestAuthentication(httpPatch, request.getAuthenticationToken());
-			setRequestBody(httpPatch, request.getJsonBody());
-			
-			CloseableHttpResponse response = httpClient.execute(httpPatch);
-			String result = EntityUtils.toString(response.getEntity());
-			
-	        setResponse(result);
-	        
-	        return new ModifySurveyResponseBuilder(result).getResponse();
-	        
-		} catch (Exception e) {
-			return new ModifySurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
-		}
-
-	}
-
-    /**
      * getCollector: HTTP GET to https://api.surveymonkey.com/v3/collectors/{id}
      * Returns a collector
      * @param request: Request for collector
@@ -272,42 +298,18 @@ public class SurveyMonkeyService extends Service {
 	}
 
     /**
-     * deleteSurvey: HTTP DELETE to https://api.surveymonkey.com/v3/surveys/{id}
-     * Deletes a survey.
-     * @param request: Request to delete survey
-     * @return Response to delete survey
-     */
-	public GetSurveyResponse deleteSurvey(DeleteSurveyRequest request) {
-		try {
-			
-			CloseableHttpClient httpClient = HttpClients.createDefault();
-			HttpDelete httpDelete = new HttpDelete(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
-					+ "/" + request.getIdSurvey()));
-			setRequestAuthentication(httpDelete, request.getAuthenticationToken());
-			
-			CloseableHttpResponse response = httpClient.execute(httpDelete);
-			String result = EntityUtils.toString(response.getEntity());
-			
-	        setResponse(result);
-	        
-	        return new GetSurveyResponseBuilder(result).getResponse();
-		} catch (Exception e) {
-			return new GetSurveyResponse(StatusSurveyResponse.ERROR, e.getMessage());
-		}
-	}
-
-    /**
      * createPage: HTTP POST to https://api.surveymonkey.com/v3/surveys/{id}/pages
      * Creates a new, empty page
      * @param request: Request for new page
+	 * @param surveyID: Id of survey to add page to
      * @return Response for new page
      */
-	public CreatePageResponse createPage(CreatePageRequest request) {
+	public CreatePageResponse createPage(CreatePageRequest request, String surveyID) {
 		try {
 
 			CloseableHttpClient httpClient = HttpClients.createDefault();
 			HttpPost httpPost = new HttpPost(new URI(SurveyConfig.ENDPOINT_V3 + SURVEY_SERVICE
-					+ "/" + request.getIdSurvey())
+					+ "/" + surveyID)
 					+ "/" + PAGE_SERVICE);
 			setRequestAuthentication(httpPost, request.getAuthenticationToken());
             setRequestBody(httpPost, request.getJsonBody());
@@ -329,7 +331,7 @@ public class SurveyMonkeyService extends Service {
      * @param request: Request for page's details
      * @return Response for page's details
      */
-    public GetPageResponse GetPage(GetPageRequest request) {
+    public GetPageResponse getPage(GetPageRequest request) {
         try {
 
             CloseableHttpClient httpClient = HttpClients.createDefault();

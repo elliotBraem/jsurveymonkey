@@ -9,9 +9,8 @@ public class CreatePageRequest extends Request {
     private String title;
     private String description;
     private int position;
-    private String idSurvey;
 
-    public CreatePageRequest(String idSurvey) {
+    public CreatePageRequest() {
         setDate(new Date());
     }
 
@@ -37,13 +36,5 @@ public class CreatePageRequest extends Request {
 
     public void setPosition(int position) {
         this.position = position;
-    }
-
-    public String getIdSurvey() {
-        return idSurvey;
-    }
-
-    public void setIdSurvey(String idSurvey) {
-        this.idSurvey = idSurvey;
     }
 }
